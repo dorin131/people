@@ -1,0 +1,5 @@
+.add-person {
+  grid-area: add-person;
+  color: black;
+  padding: 10px;
+}

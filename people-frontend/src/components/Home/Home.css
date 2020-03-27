@@ -1,0 +1,9 @@
+.Home {
+  color: white;
+  display: grid;
+  color: rgb(211,212,211);
+  grid-template-columns: 200px 200px auto;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "list-persons add-person people-graph"
+}

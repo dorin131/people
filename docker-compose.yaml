@@ -1,0 +1,25 @@
+version: '3'
+services:
+  backend:
+    image: "node:12"
+    command: ["./backend/wait-for-it.sh", "mongo:27017", "--", "node", "./backend/index.js"]
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./people-backend:/backend
+    environment:
+      NODE_ENV: development
+    depends_on: 
+      - "mongo"
+    links:
+      - "mongo"
+  mongo:
+    image: "mongo:3.6"
+    restart: always
+    logging:
+      driver: none
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+      

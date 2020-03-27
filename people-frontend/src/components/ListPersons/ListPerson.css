@@ -1,0 +1,5 @@
+.list-persons {
+  grid-area: list-persons;
+  background-color: #4D5250;
+  padding: 10px;
+}
