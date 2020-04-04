@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import './AddPerson.css';
 
-export function AddPerson(props) {
+export default function AddPerson(props) {
   const initialState = {
     name: '',
     linkedin: '',
@@ -20,39 +21,44 @@ export function AddPerson(props) {
     dislikes: '',
     interactionCount: 0,
     relationshipScore: 0,
-    liaison: ''
+    liaison: '',
   };
   const [person, setPerson] = useState(initialState);
 
   const handleNameChange = (field) => (event) => {
     setPerson({
-      [field]: event.target.value
+      ...person,
+      [field]: event.target.value,
     });
-  }
+  };
+
+  const fields = Object.keys(initialState).map((field) => (
+    <div key={field}>
+      <label htmlFor={field}>
+        {field}
+        :
+        <br />
+      </label>
+      <input value={person[field] || ''} onChange={handleNameChange(field)} name={field} />
+    </div>
+  ));
 
   const handleSubmit = (event) => {
     props.onNewPerson(person);
     event.preventDefault();
-  }
-
-  const populateForm = (state) => {
-    return Object.keys(state).map((field) => (
-      <div key={field}>
-        <label>
-          {field}:<br />
-          <input value={person[field] || ''} onChange={handleNameChange(field)}/>
-        </label>
-      </div>
-    ));
-  }
+  };
 
   return (
     <div className="add-person">
       <h1>Add Person</h1>
       <form onSubmit={handleSubmit}>
-        {populateForm(initialState)}
+        {fields}
         <input type="submit" value="Add person" />
       </form>
     </div>
-  )
+  );
 }
+
+AddPerson.propTypes = {
+  onNewPerson: PropTypes.func.isRequired,
+};

@@ -4,7 +4,7 @@ export function Graph() {
 
   function getPhoto(person) {
     if (person.hasPhoto) {
-      return `http://localhost:4000/images/${person._id}.jpeg` 
+      return `http://localhost:4000/images/${person.id}.jpeg` 
     }
     return "http://localhost:4000/images/anonymous.jpeg";
   }
@@ -23,12 +23,12 @@ export function Graph() {
         .force("center", d3.forceCenter(width / 2, height / 2));
   
     const graph = {
-      nodes: data.map(person => ({ ...person, id: person.name })),
+      nodes: data,
       links: data.map(person => {
         if (person.group) {
           return {
             source: person.group,
-            target: person.name,
+            target: person.id,
             value: 2
           }
         }
