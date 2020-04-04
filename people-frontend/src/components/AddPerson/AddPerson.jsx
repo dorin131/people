@@ -3,48 +3,33 @@ import PropTypes from 'prop-types';
 import './AddPerson.css';
 
 export default function AddPerson(props) {
+  const { people, onNewPerson } = props;
   const initialState = {
     name: '',
-    linkedin: '',
-    twitter: '',
-    website: '',
-    phone: '',
-    birthday: '',
-    location: '',
-    hometown: '',
-    education: '',
-    company: '',
+    group: '',
     title: '',
-    facts: '',
-    assummptions: '',
-    likes: '',
-    dislikes: '',
-    interactionCount: 0,
-    relationshipScore: 0,
     liaison: '',
+    hasPhoto: false,
+    isGroup: false,
   };
   const [person, setPerson] = useState(initialState);
 
-  const handleNameChange = (field) => (event) => {
+  const handleStringChange = (event) => {
     setPerson({
       ...person,
-      [field]: event.target.value,
+      [event.target.name]: event.target.value,
     });
   };
 
-  const fields = Object.keys(initialState).map((field) => (
-    <div key={field}>
-      <label htmlFor={field}>
-        {field}
-        :
-        <br />
-      </label>
-      <input value={person[field] || ''} onChange={handleNameChange(field)} name={field} />
-    </div>
-  ));
+  const handleBooleanChange = (event) => {
+    setPerson({
+      ...person,
+      [event.target.name]: Boolean(Number(event.target.value)),
+    });
+  };
 
   const handleSubmit = (event) => {
-    props.onNewPerson(person);
+    onNewPerson(person);
     event.preventDefault();
   };
 
@@ -52,8 +37,51 @@ export default function AddPerson(props) {
     <div className="add-person">
       <h1>Add Person</h1>
       <form onSubmit={handleSubmit}>
-        {fields}
-        <input type="submit" value="Add person" />
+
+        <div className="form-field">
+          <label htmlFor="name">
+            Name:
+            <br />
+            <input value={person.name || ''} onChange={handleStringChange} name="name" />
+          </label>
+        </div>
+
+        <div className="form-field">
+          <label htmlFor="title">
+            Title:
+            <br />
+            <input value={person.title || ''} onChange={handleStringChange} name="title" />
+          </label>
+        </div>
+
+        <div className="form-field">
+          <label htmlFor="liaison">
+            Liaison:
+            <br />
+            <select name="liaison" defaultValue={person.liaison} onChange={handleStringChange}>
+              <option value="">Please choose</option>
+              {people.map((p) => (
+                <option key={p.id} value={p.id}>{p.name}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+
+        <div className="form-field">
+          <label htmlFor="isGroup">
+            Is group:
+            <br />
+            <select name="isGroup" value={person.isGroup ? '1' : '0'} onChange={handleBooleanChange}>
+              <option value="1">True</option>
+              <option value="0">False</option>
+            </select>
+          </label>
+        </div>
+
+        <div className="submit-button">
+          <input type="submit" value="Add person" />
+        </div>
+
       </form>
     </div>
   );
@@ -61,4 +89,5 @@ export default function AddPerson(props) {
 
 AddPerson.propTypes = {
   onNewPerson: PropTypes.func.isRequired,
+  people: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

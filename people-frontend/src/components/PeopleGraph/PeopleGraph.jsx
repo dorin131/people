@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { fromEvent, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import './PeopleGraph.css';
-import { Graph } from '../../services/Graph/Graph';
+import Graph from '../../services/Graph/Graph';
 
 function useWindowResize(people) {
   useEffect(() => {

@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <div className="Home">
       <ListPersons people={people} />
-      <AddPerson onNewPerson={onNewPerson} />
+      <AddPerson people={people} onNewPerson={onNewPerson} />
       <PeopleGraph people={people} />
     </div>
   );
